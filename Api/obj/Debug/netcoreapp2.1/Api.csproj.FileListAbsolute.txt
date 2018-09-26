@@ -1,0 +1,14 @@
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\bin\Debug\netcoreapp2.1\Api.deps.json
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\bin\Debug\netcoreapp2.1\Api.runtimeconfig.json
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\bin\Debug\netcoreapp2.1\Api.runtimeconfig.dev.json
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\bin\Debug\netcoreapp2.1\Api.dll
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\bin\Debug\netcoreapp2.1\Api.pdb
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.csprojAssemblyReference.cache
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.csproj.CoreCompileInputs.cache
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.RazorAssemblyInfo.cache
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.RazorAssemblyInfo.cs
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.AssemblyInfoInputs.cache
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.AssemblyInfo.cs
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.RazorTargetAssemblyInfo.cache
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.dll
+C:\Koulu\Projektit\Bannivasara\Bannivasara\Api\obj\Debug\netcoreapp2.1\Api.pdb
