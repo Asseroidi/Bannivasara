@@ -3,43 +3,112 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Api.Models;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ValuesController : IRepository
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        PlayerProcessor myProcessor;
+        public PlayersController(PlayerProcessor processor)
         {
-            return new string[] { "value1", "value2" };
+            myProcessor = processor;
+
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public Task<Player> Get(Guid playerId)
         {
-            return "value";
+            return myProcessor.Get(playerId);
         }
 
-        // POST api/values
+        [HttpGet]
+        public Task<Player[]> GetAll()
+        {
+            return myProcessor.GetAll();
+        }
+
         [HttpPost]
-        public void Post([FromBody] string value)
+        public Task<Player> Create([FromBody] NewPlayer player)
         {
+            return myProcessor.Create(player);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{playerId}")]
+        public Task<Player> Modify(Guid playerId, [FromBody] ModifiedPlayer player)
         {
+            return myProcessor.Modify(playerId, player);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{playerId}")]
+        public Task<Player> Delete(Guid playerId)
         {
+            return myProcessor.Delete(playerId);
         }
+
+        [HttpPut("{playerId}")]
+        public Task<Player> BanPlayer (Guid playerId, [FromBody] BannedPlayer player)
+        {
+            return myProcessor.BanPlayer(playerId, player);
+        }
+
+        [Route("{playerId}/friends")]
+        [HttpGet("{friendId}")]
+        public Task<Player> GetFriend(Guid playerId, Guid friendId)
+        {
+            return myProcessor.GetFriend(playerId, friendId);
+        }
+
+        [Route("{playerId}/friends")]
+        [HttpGet("{friendId}")]
+        public Task<Player[]> GetAllFriends(Guid playerId)
+        {
+            return myProcessor.GetAllFriends(playerId);
+        }
+
+        [Route("{playerId}/friends")]
+        [HttpPut("{friendId}")]
+        public Task<Player> AddFriend (Guid playerId, Guid friendId)
+        {
+            return myProcessor.AddFriend(playerId, friendId);
+        }
+
+        [Route("{playerId}/friends")]
+        [HttpDelete("{friendId}")]
+        public Task<Player> RemoveFriend (Guid playerId, Guid friendId)
+        {
+            return myProcessor.RemoveFriend(playerId, friendId);
+        }
+
+        [Route("{playerId}/blocked")]
+        [HttpGet("{blockedId}")]
+        public Task<Player> GetBlocked(Guid playerId, Guid blockedId)
+        {
+            return myProcessor.GetBlocked(playerId, blockedId);
+        }
+
+        [Route("{playerId}/blocked")]
+        [HttpGet("{blockedId}")]
+        public Task<Player[]> GetAllBlocked(Guid playerId)
+        {
+            return myProcessor.GetAllBlocked(playerId);
+        }
+
+        [Route("{playerId}/blocked")]
+        [HttpPut("{blockedId}")]
+        public Task<Player> AddBlocked(Guid playerId, Guid blockedId)
+        {
+            return myProcessor.AddBlocked(playerId, blockedId);
+        }
+
+        [Route("{playerId}/blocked")]
+        [HttpDelete("{blockedId}")]
+        public Task<Player> RemoveBlocked(Guid playerId, Guid blockedId)
+        {
+            return myProcessor.RemoveBlocked(playerId, blockedId);
+        }
+        //AddFriend, GetFriend, DeleteFriend
     }
 }

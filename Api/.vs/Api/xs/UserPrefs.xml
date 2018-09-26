@@ -1,0 +1,18 @@
+﻿<Properties StartupConfiguration="{D28E9120-3F43-4044-854A-08FA56D6A6D1}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/PlayerProcessor.cs">
+    <Files>
+      <File FileName="Controllers/ValuesController.cs" Line="58" Column="9" />
+      <File FileName="Models/Player.cs" Line="1" Column="1" />
+      <File FileName="Models/PlayerProcessor.cs" Line="1" Column="1" />
+      <File FileName="Models/PlayerRepository.cs" Line="1" Column="1" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Api PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
