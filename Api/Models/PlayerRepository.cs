@@ -13,18 +13,18 @@ namespace Api.Models
     Task<Player> CreatePlayer(Player player);
     Task<Player> GetPlayer(Guid playerId);
     Task<Player[]> GetAllPlayers();
-    Task<Player> UpdatePlayer(Guid playerId, ModifiedPlayer player);
+    Task<Player> UpdatePlayer(Guid id, Player player);
     Task<Player> DeletePlayer(Guid playerId);
-    Task<Player> BanPlayer(Guid playerId, BannedPlayer player);
+
     Task<Player> GetFriend(Guid playerId, Guid friendId);
     Task<Player[]> GetAllFriends(Guid playerId);
     Task<Player> AddFriend(Guid playerId, Guid friendId);
     Task<Player> RemoveFriend(Guid playerId, Guid friendId);
-    Task<Player> GetBlocked(Guid playerId, Guid blockedId);
+
+     Task<Player> GetBlocked(Guid playerId, Guid blockedId);
     Task<Player[]> GetAllBlocked(Guid playerId);
     Task<Player> AddBlocked(Guid playerId, Guid blockedId);
     Task<Player> RemoveBlocked(Guid playerId, Guid blockedId);
-    }
 
 
     public class PlayerRepository : IRepository
@@ -59,14 +59,14 @@ namespace Api.Models
             return players.ToArray();
         }
 
-        public async Task<Player> UpdatePlayer(Guid id, ModifiedPlayer player)
+        public async Task<Player> UpdatePlayer(Guid id, Player replacePlayer)
         {
-            Player replacePlayer = GetPlayer(id).Result;
-            replacePlayer.Score = player.Score;
             var filter = Builders<Player>.Filter.Eq("id", id);
             await playerCollection.ReplaceOneAsync(filter, replacePlayer);
             return replacePlayer;
         }
+
+
 
         public async Task<Player> DeletePlayer(Guid playerId)
         {
@@ -75,9 +75,38 @@ namespace Api.Models
             return null;
         }
 
+        public async Task<Player> GetFriend(Guid playerId, Guid friendId)
+        {
+            var temp = GetPlayer(playerId);
+
+            foreach(var playervar in temp.Result.friendList)
+            {
+                if(playervar  == friendId)
+                {
+                    return GetPlayer(playervar).Result;
+                }
+            }
+            return null;
+        }
+
         public async Task<Player[]> GetAllFriends(Guid playerId)
         {
-            return GetPlayer(playerId).Result.friendList.ToArray();
+            var listOfFriends = GetPlayer(playerId).Result.friendList;
+            var betterList = new List<Player>();
+            foreach(var playervar in listOfFriends)
+            {
+                
+            }
+
+
+            return ;
+        }
+
+        public async Task<Player> AddFriend(Guid playerId, Guid friendId)
+        {
+            var temp = GetPlayer(playerId);
+            temp.Result.friendList.Add(friendId);
+            return item;
         }
         public async Task<Player> RemoveFriend(Guid playerId, Player friend)
         {
@@ -95,11 +124,38 @@ namespace Api.Models
             return null;
         }
 
+        public async Task<Player> GetBlocked(Guid playerId, Guid blockedId)
+        {
+            var temp = GetPlayer(playerId);
 
-//implement later!
-    Task<Player> GetBlocked(Guid playerId, Guid friendId);
-    Task<Player[]> GetAllBlocked(Guid playerId);
-    Task<Player> AddBlocked(Guid playerId, Guid friendId);
-    Task<Player> RemoveBlocked(Guid playerId, Guid friendId);
+            foreach(var playervar in temp.Result.blockedList)
+            {
+                if(playervar.Id  == blockedId)
+                {
+                    return playervar;
+                }
+            }
+            return null;
+        }
+
+        public async Task<Player[]> GetAllBlocked(Guid playerId)
+        {
+            return GetPlayer(playerId).Result.blockedList.ToArray();
+        }
+        public async Task<Player> RemoveBlocked(Guid playerId, Player friend)
+        {
+            var temp = GetPlayer(playerId);
+
+            foreach(var playervar in temp.Result.blockedList)
+            {
+                if (playervar.Id == friend.Id)
+                {
+                    temp.Result.blockedList.Remove(playervar);
+                    return playervar;
+                }
+
+            }
+            return null;
+        }
     }
 }

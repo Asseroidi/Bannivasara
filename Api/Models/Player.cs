@@ -12,7 +12,9 @@ namespace Api.Models
         public int Score { get; set; }
         public bool IsBanned { get; set; }
         public DateTime CreationTime { get; set; }
-        public List<Player> friendList = new List<Player>();
+        public List<Guid> friendList = new List<Guid>();
+        public List<Guid> blockedList = new List<Guid>();
+
     }
 
     public class NewPlayer
