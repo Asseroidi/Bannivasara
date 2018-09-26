@@ -33,9 +33,9 @@ namespace Api.Models
         }
         public Task<Player> Modify(Guid playerId, ModifiedPlayer player)
         {
-            Player replacePlayer = myRepository.GetPlayer(id).Result;
+            Player replacePlayer = myRepository.GetPlayer(playerId).Result;
             replacePlayer.Score = player.Score;
-            return myRepository.UpdatePlayer(id, replacePlayer);
+            return myRepository.UpdatePlayer(playerId, replacePlayer);
         }
 
         public Task<Player> BanPlayer(Guid id, BannedPlayer player)
@@ -47,12 +47,7 @@ namespace Api.Models
 
         public Task<Player> Delete(Guid id)
         {
-            return myRepository.DeletePlayer(playerId);
-        }
-
-        public Task<Player> BanPlayer(Guid playerId, BannedPlayer player)
-        {
-            return myRepository.BanPlayer(playerId, player);
+            return myRepository.DeletePlayer(id);
         }
 
         public Task<Player> GetFriend (Guid playerId, Guid friendId)

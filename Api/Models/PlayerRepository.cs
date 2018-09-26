@@ -7,26 +7,25 @@ using System.Collections.Generic;
 
 namespace Api.Models
 {
-
     public interface IRepository
-{
-    Task<Player> CreatePlayer(Player player);
-    Task<Player> GetPlayer(Guid playerId);
-    Task<Player[]> GetAllPlayers();
-    Task<Player> UpdatePlayer(Guid id, Player player);
-    Task<Player> DeletePlayer(Guid playerId);
+    {
+        Task<Player> CreatePlayer(Player player);
+        Task<Player> GetPlayer(Guid playerId);
+        Task<Player[]> GetAllPlayers();
+        Task<Player> UpdatePlayer(Guid id, Player player);
+        Task<Player> DeletePlayer(Guid playerId);
 
-    Task<Player> GetFriend(Guid playerId, Guid friendId);
-    Task<Player[]> GetAllFriends(Guid playerId);
-    Task<Player> AddFriend(Guid playerId, Guid friendId);
-    Task<Player> RemoveFriend(Guid playerId, Guid friendId);
+        Task<Player> GetFriend(Guid playerId, Guid friendId);
+        Task<Player[]> GetAllFriends(Guid playerId);
+        Task<Player> AddFriend(Guid playerId, Guid friendId);
+        Task<Player> RemoveFriend(Guid playerId, Guid friendId);
 
-     Task<Player> GetBlocked(Guid playerId, Guid blockedId);
-    Task<Player[]> GetAllBlocked(Guid playerId);
-    Task<Player> AddBlocked(Guid playerId, Guid blockedId);
-    Task<Player> RemoveBlocked(Guid playerId, Guid blockedId);
+        Task<Player> GetBlocked(Guid playerId, Guid blockedId);
+        Task<Player[]> GetAllBlocked(Guid playerId);
+        Task<Player> AddBlocked(Guid playerId, Guid blockedId);
+        Task<Player> RemoveBlocked(Guid playerId, Guid blockedId);
 
-
+    }
     public class PlayerRepository : IRepository
     {
         
@@ -49,8 +48,18 @@ namespace Api.Models
 
         public async Task<Player> GetPlayer(Guid playerId)
         {
-            var filter = Builders<Player>.Filter.Eq("id", playerId);
-            return await playerCollection.Find(filter).FirstAsync();
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq("_id", playerId);
+            return playerCollection.Find(filter).FirstAsync().Result;
+
+
+            // var filter = Builders<Player>.Filter.Eq("id", playerId);
+            // // var first = await playerCollection.Find(filter).FirstOrDefaultAsync();
+            // var first = playerCollection.Find(filter).FirstAsync();
+
+            // if (first != null)
+            //     return first.Result;
+            // else
+            //     return null;
         }
 
         public async Task<Player[]> GetAllPlayers()
@@ -91,48 +100,33 @@ namespace Api.Models
 
         public async Task<Player[]> GetAllFriends(Guid playerId)
         {
-            var listOfFriends = GetPlayer(playerId).Result.friendList;
-            var betterList = new List<Player>();
-            foreach(var playervar in listOfFriends)
-            {
-                
-            }
-
-
-            return ;
+            Guid[] templist = GetPlayer(playerId).Result.friendList.ToArray();
+            return await GetAllPlayersFromList(templist);
         }
 
         public async Task<Player> AddFriend(Guid playerId, Guid friendId)
         {
-            var temp = GetPlayer(playerId);
-            temp.Result.friendList.Add(friendId);
-            return item;
+            var temp = await GetPlayer(playerId);
+            temp.friendList.Add(friendId);
+            await UpdatePlayer(playerId, temp);
+            return temp;
         }
-        public async Task<Player> RemoveFriend(Guid playerId, Player friend)
+        public async Task<Player> RemoveFriend(Guid playerId, Guid friend)
         {
-            var temp = GetPlayer(playerId);
-
-            foreach(var playervar in temp.Result.friendList)
-            {
-                if (playervar.Id == friend.Id)
-                {
-                    temp.Result.friendList.Remove(playervar);
-                    return playervar;
-                }
-
-            }
-            return null;
+            var temp = await GetPlayer(playerId);
+            temp.friendList.Remove(friend);
+            return temp;
         }
 
         public async Task<Player> GetBlocked(Guid playerId, Guid blockedId)
         {
-            var temp = GetPlayer(playerId);
+            var temp = await GetPlayer(playerId);
 
-            foreach(var playervar in temp.Result.blockedList)
+            foreach(var blockedvar in temp.blockedList)
             {
-                if(playervar.Id  == blockedId)
+                if(blockedvar  == blockedId)
                 {
-                    return playervar;
+                    return GetPlayer(blockedvar).Result;
                 }
             }
             return null;
@@ -140,22 +134,36 @@ namespace Api.Models
 
         public async Task<Player[]> GetAllBlocked(Guid playerId)
         {
-            return GetPlayer(playerId).Result.blockedList.ToArray();
+            // return GetPlayer(playerId).Result.blockedList.ToArray();
+            Guid[] templist = GetPlayer(playerId).Result.blockedList.ToArray();
+            return await GetAllPlayersFromList(templist);
         }
-        public async Task<Player> RemoveBlocked(Guid playerId, Player friend)
+
+        public async Task<Player> AddBlocked(Guid playerId, Guid blockedId)
         {
-            var temp = GetPlayer(playerId);
-
-            foreach(var playervar in temp.Result.blockedList)
-            {
-                if (playervar.Id == friend.Id)
-                {
-                    temp.Result.blockedList.Remove(playervar);
-                    return playervar;
-                }
-
-            }
-            return null;
+            var temp = await GetPlayer(playerId);
+            temp.blockedList.Add(blockedId);
+            return temp;
+        
         }
+
+        public async Task<Player> RemoveBlocked(Guid playerId, Guid blocked)
+        {
+            var temp = await GetPlayer(playerId);
+            temp.blockedList.Remove(blocked);
+            // await RemovePlayerFromList(temp.Result.blockedList, blocked);
+            return temp;
+        }
+
+        public async Task<Player[]>  GetAllPlayersFromList(Guid[] playerArray)
+        {
+            var betterList = new List<Player>();
+            foreach(var variable in playerArray)
+            {
+                betterList.Add(GetPlayer(variable).Result);
+            }
+            return betterList.ToArray();
+        }
+
     }
 }
