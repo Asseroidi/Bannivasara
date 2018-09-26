@@ -15,31 +15,16 @@ namespace Api.Models
     Task<Player[]> GetAllPlayers();
     Task<Player> UpdatePlayer(Guid playerId, ModifiedPlayer player);
     Task<Player> DeletePlayer(Guid playerId);
-<<<<<<< HEAD
     Task<Player> BanPlayer(Guid playerId, BannedPlayer player);
-=======
-    Task<Player> BanPlayer(Guid id, BannedPlayer player);
-
->>>>>>> d2dc667c954aab4ae55312d3e36d3a2e9006d831
     Task<Player> GetFriend(Guid playerId, Guid friendId);
     Task<Player[]> GetAllFriends(Guid playerId);
     Task<Player> AddFriend(Guid playerId, Guid friendId);
     Task<Player> RemoveFriend(Guid playerId, Guid friendId);
-<<<<<<< HEAD
     Task<Player> GetBlocked(Guid playerId, Guid blockedId);
     Task<Player[]> GetAllBlocked(Guid playerId);
     Task<Player> AddBlocked(Guid playerId, Guid blockedId);
     Task<Player> RemoveBlocked(Guid playerId, Guid blockedId);
     }
-=======
-
-     Task<Player> GetBlocked(Guid playerId, Guid friendId);
-    Task<Player[]> GetAllBlocked(Guid playerId);
-    Task<Player> AddBlocked(Guid playerId, Guid friendId);
-    Task<Player> RemoveBlocked(Guid playerId, Guid friendId);
-
-}
->>>>>>> d2dc667c954aab4ae55312d3e36d3a2e9006d831
 
 
     public class PlayerRepository : IRepository
