@@ -108,8 +108,7 @@ namespace Api.Models
         {
             var temp = await GetPlayer(playerId);
             temp.friendList.Add(friendId);
-            await UpdatePlayer(playerId, temp);
-            return temp;
+            return await UpdatePlayer(playerId, temp);
         }
         public async Task<Player> RemoveFriend(Guid playerId, Guid friend)
         {
@@ -143,16 +142,15 @@ namespace Api.Models
         {
             var temp = await GetPlayer(playerId);
             temp.blockedList.Add(blockedId);
-            return temp;
-        
+            return await UpdatePlayer(playerId, temp);        
         }
 
         public async Task<Player> RemoveBlocked(Guid playerId, Guid blocked)
         {
             var temp = await GetPlayer(playerId);
             temp.blockedList.Remove(blocked);
+            return await UpdatePlayer(playerId, temp);
             // await RemovePlayerFromList(temp.Result.blockedList, blocked);
-            return temp;
         }
 
         public async Task<Player[]>  GetAllPlayersFromList(Guid[] playerArray)
